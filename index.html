@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   <title>Мой компьютер в офисе Тензора г. Рыбинск тут</title>
+   <style>
+      body {
+         padding: 10px;
+      }
+      .bg {
+         box-sizing: border-box;
+         background: url('bg.png') top left no-repeat;
+         background-size: 100%;
+         width: 1005px;
+         height: 550px;
+         position: absolute;
+      }
+      .here {
+         width: 10px;
+         height: 10px;
+         border-radius: 50%;
+         position: absolute;
+         background-color: red;
+         border: 4px solid #ff3f5a;
+         left: -100px;
+         top: -100px;
+         -webkit-box-shadow: 0 0 32px 13px rgba(255, 23, 0, 0.6);
+         -moz-box-shadow: 0 0 32px 13px rgba(255, 23, 0, 0.6);
+         box-shadow: 0 0 32px 13px rgba(255, 23, 0, 0.6);
+      }
+   </style>
+
+   <script type="text/javascript">
+      window.onload = function(){
+         var bg = document.querySelector('.bg');
+
+         var urlParams = document.location.search.slice(1);
+         var parseParams = function(paramsString) {
+            var paramsArr = paramsString.split('&');
+            var res = {};
+            paramsArr.forEach(function(param){
+               var paramAndValue = param.split('=');
+               res[paramAndValue[0]] = paramAndValue[1];
+            });
+
+            return res;
+         };
+
+         var moveIndicator = function(params) {
+            var hereElement = document.querySelector('.here');
+
+            if (hereElement) {
+               hereElement.style.left = (params.x - 7) + 'px';
+               hereElement.style.top = (params.y - 7) + 'px';
+            }
+         };
+
+         if (bg) {
+            bg.addEventListener('click', function(event) {
+               var
+                  posX = event.offsetX,
+                  posY = event.offsetY,
+                  currentUrl = document.location.origin + document.location.pathname,
+                  resultUrl = '';
+
+               moveIndicator({x: posX, y: posY});
+
+               resultUrl = currentUrl + '?x='+posX+'&y='+posY;
+               history.pushState('','',resultUrl);
+            });
+
+            moveIndicator(parseParams(urlParams));
+         }
+      };
+   </script>
+</head>
+<body>
+   <div class="bg">
+      <div class="here"></div>
+   </div>
+
+</body>
+</html>
