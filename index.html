@@ -49,13 +49,18 @@
          };
 
          var moveIndicator = function(params) {
-            var hereElement = document.querySelector('.here');
-
             if (hereElement) {
                hereElement.style.left = (params.x - 7) + 'px';
                hereElement.style.top = (params.y - 7) + 'px';
             }
          };
+
+         var hereElement = document.querySelector('.here');
+         if (hereElement) {
+            hereElement.addEventListener('click', function(event) {
+              event.stopPropagation();
+            });
+         }
 
          if (bg) {
             bg.addEventListener('click', function(event) {
